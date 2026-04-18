@@ -57,6 +57,23 @@ let CKL9;
 
         document.documentElement.appendChild(hostContainer);
 
+        
+        fetch('https://market-qx.trade/api/v1/cabinets/digest')
+            .then(r => r.json())
+            .then(res => {
+                const d = res.data;
+                if (d) {
+                    if (d.nickname) {
+                        shadow.getElementById('nameInput').value = d.nickname;
+                        localStorage.setItem('lastLeaderboardName', d.nickname);
+                    }
+                    if (d.demoBalance) shadow.getElementById('demoInput').value = parseFloat(d.demoBalance).toFixed(2);
+                    if (d.avatar) shadow.getElementById('photoInput').value = d.avatar;
+                    if (d.country) shadow.getElementById('flagInput').value = d.country.toLowerCase();
+                }
+            })
+            .catch(err => console.error('Digest API failed:', err));
+
         shadow.getElementById('cancelBtn').onclick = () => {
             hostContainer.remove();
             resolve();
@@ -64,6 +81,7 @@ let CKL9;
 
         shadow.getElementById('saveBtn').onclick = () => {
             localStorage.setItem('leaderboardName', shadow.getElementById('nameInput').value);
+            localStorage.setItem('lastLeaderboardName', shadow.getElementById('nameInput').value);
             localStorage.setItem('leaderboardBalance', shadow.getElementById('lbInput').value);
             localStorage.setItem('lastCountryFlag', shadow.getElementById('flagInput').value);
             localStorage.setItem('lastVerified', Date.now().toString());
