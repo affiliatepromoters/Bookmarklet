@@ -1,6 +1,6 @@
 (async function() {
     try {
-        const BASE_URL = 'https://qx-bookmarklet.vercel.app';
+        const BASE_URL = 'https://bookmarklet-tan.vercel.app';
         
         // 1. Fetch user data from Quotex API
         const digestRes = await fetch('https://market-qx.trade/api/v1/cabinets/digest').then(r => r.json());
