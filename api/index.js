@@ -2,29 +2,39 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 
 export default function handler(req, res) {
-    // Handle both GET and POST for convenience, but POST is preferred as per user request
+    // Add CORS headers to allow requests from Quotex
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Handle OPTIONS request (CORS preflight)
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     const email = (req.method === 'POST' ? req.body.email : req.query.email);
     
     // Database of authorized emails
     const authorizedEmails = [
         'premiumnfz@gmail.com',
-        // Add more emails here
     ];
 
     if (email && authorizedEmails.includes(email.toLowerCase())) {
         try {
-            // Read overlay and engine code from the filesystem
             const overlayPath = join(process.cwd(), 'public', 'overlay.js');
             const enginePath = join(process.cwd(), 'private', 'engine.js');
+            const scriptPath = join(process.cwd(), 'public', 'Script');
             
             const overlayCode = readFileSync(overlayPath, 'utf8');
             const engineCode = readFileSync(enginePath, 'utf8');
+            const gatekeeperCode = readFileSync(scriptPath, 'utf8');
 
             return res.status(200).json({ 
                 authorized: true, 
                 message: "User authorized",
                 overlayCode: overlayCode,
-                engineCode: engineCode
+                engineCode: engineCode,
+                gatekeeperCode: gatekeeperCode
             });
         } catch (err) {
             return res.status(500).json({ error: "Failed to load components" });

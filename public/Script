@@ -12,8 +12,8 @@
             return;
         }
 
-        // 2. Verify authorization and fetch code via POST
-        const authRes = await fetch(`${BASE_URL}/api/auth`, {
+        // 2. Verify authorization via root /api endpoint
+        const authRes = await fetch(`${BASE_URL}/api`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email })
