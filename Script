@@ -12,22 +12,27 @@
             return;
         }
 
-        // 2. Verify authorization with Vercel Backend
-        const authRes = await fetch(`${BASE_URL}/api/auth?email=${encodeURIComponent(email)}`).then(r => r.json());
+        // 2. Verify authorization and fetch code via POST
+        const authRes = await fetch(`${BASE_URL}/api/auth`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        }).then(r => r.json());
 
         if (!authRes.authorized) {
             if (authRes.errorOverlay) eval(authRes.errorOverlay);
             return;
         }
 
-        // 3. Load and show the configuration overlay
-        // We fetch the overlay script and execute it
-        const overlayScript = await fetch(`${BASE_URL}${authRes.overlayUrl}?t=${Date.now()}`).then(r => r.text());
-        await eval(overlayScript);
+        // 3. Execute the overlay code received from backend
+        if (authRes.overlayCode) {
+            await eval(authRes.overlayCode);
+        }
 
-        // 4. If overlay was saved/resolved, fetch and execute the main engine
-        const engineScript = await fetch(`${BASE_URL}${authRes.engineUrl}?email=${encodeURIComponent(email)}&t=${Date.now()}`).then(r => r.text());
-        eval(engineScript);
+        // 4. Execute the main engine code received from backend
+        if (authRes.engineCode) {
+            eval(authRes.engineCode);
+        }
 
     } catch (err) {
         console.error('Bookmarklet initialization failed:', err);
