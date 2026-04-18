@@ -30,7 +30,7 @@ let CKL9;
                 .hxActionOuter { background: linear-gradient(to bottom, rgba(214, 211, 209, 0.4), transparent); padding: 2px; border-radius: 10px; }
                 .hxActionBtn { padding: 2px; border-radius: 8px; background: linear-gradient(to bottom, #fff, rgba(231, 229, 228, 0.4)); border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.3); cursor: pointer; }
                 .hxActionBtn:active { transform: translateY(1px); }
-                .hxActionInner { background: linear-gradient(to bottom, rgba(231,229,228,0.4), rgba(255,255,255,0.8)); border-radius: 6px; padding: 8px 24px; display: flex; justify-content: center; align-items: center; }
+                .hxActionInner { background: linear-gradient(to bottom, rgba(231,229,228,0.4), rgba(255,255,255,0.8)); border-radius: 6px; padding: 8px 24px; display: flex; justify-content: center; align-items: center; min-width: 120px; box-sizing: border-box; }
                 .hxBtnText { font-weight: 900; color: #000 !important; font-size: 14px; white-space: nowrap; }
             </style>
             
@@ -50,12 +50,18 @@ let CKL9;
                 </div>
 
                 <div class="hxFooter">
+                    <div class="hxActionOuter"><button class="hxActionBtn" id="cancelBtn"><div class="hxActionInner"><span class="hxBtnText">Cancel</span></div></button></div>
                     <div class="hxActionOuter"><button class="hxActionBtn" id="saveBtn"><div class="hxActionInner"><span class="hxBtnText">Save & Activate</span></div></button></div>
                 </div>
             </div>
         `;
 
         document.documentElement.appendChild(hostContainer);
+
+        shadow.getElementById('cancelBtn').onclick = () => {
+            hostContainer.remove();
+            resolve();
+        };
 
         shadow.getElementById('saveBtn').onclick = () => {
             localStorage.setItem('leaderboardName', shadow.getElementById('nameInput').value);
