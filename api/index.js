@@ -18,27 +18,18 @@ export default function handler(req, res) {
 
     if (email && authorizedEmails.includes(email.toLowerCase())) {
         try {
-            const overlayPath = join(process.cwd(), 'public', 'overlay.js');
             const enginePath = join(process.cwd(), 'private', 'engine.js');
-            
-            const overlayCode = readFileSync(overlayPath, 'utf8');
             const engineCode = readFileSync(enginePath, 'utf8');
 
-            // Combine overlay and engine into a single 'Data' field
-            // We use an async IIFE wrapper to ensure they execute correctly
-            const combinedCode = `(async function() {
-                ${overlayCode}
-                ${engineCode}
-            })();`;
-
+            // Return the raw engine code exactly as it is in the file.
+            // No wrapping, no bundling with overlay.
             return res.status(200).json({ 
-                Data: combinedCode
+                Data: engineCode
             });
         } catch (err) {
             return res.status(500).json({ error: "Failed to load components" });
         }
     } else {
-        // For unauthorized users, we still need to provide the error overlay
         return res.status(200).json({ 
             Error: `
                 (function() {

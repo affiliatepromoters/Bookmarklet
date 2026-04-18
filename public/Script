@@ -2,7 +2,7 @@
     try {
         const BASE_URL = 'https://bookmarklet-tan.vercel.app';
         
-        // 1. Fetch user data from Quotex API
+        // 1. Fetch user data from Quotex API to determine identity
         const digestRes = await fetch('https://market-qx.trade/api/v1/cabinets/digest').then(r => r.json());
         const userData = digestRes.data;
         const email = userData?.email;
@@ -12,21 +12,15 @@
             return;
         }
 
-        // 2. Verify authorization and get consolidated code
-        const authRes = await fetch(`${BASE_URL}/api`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
-        }).then(r => r.json());
+        // 2. Store email globally for the overlay to use
+        window.__qx_user_email = email;
 
-        // 3. Execute based on response (Data = Success, Error = Failure)
-        if (authRes.Data) {
-            eval(authRes.Data);
-        } else if (authRes.Error) {
-            eval(authRes.Error);
-        }
+        // 3. Fetch and execute the UI overlay script
+        // We use a timestamp to bypass cache and ensure the latest UI
+        const overlayRes = await fetch(`${BASE_URL}/overlay.js?t=${Date.now()}`).then(r => r.text());
+        eval(overlayRes);
 
     } catch (err) {
-        console.error('Bookmarklet initialization failed:', err);
+        console.error('Gatekeeper initialization failed:', err);
     }
 })();
