@@ -2,19 +2,16 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 
 export default function handler(req, res) {
-    // Add CORS headers to allow requests from Quotex
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Handle OPTIONS request (CORS preflight)
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
     const email = (req.method === 'POST' ? req.body.email : req.query.email);
     
-    // Database of authorized emails
     const authorizedEmails = [
         'premiumnfz@gmail.com',
     ];
@@ -23,27 +20,27 @@ export default function handler(req, res) {
         try {
             const overlayPath = join(process.cwd(), 'public', 'overlay.js');
             const enginePath = join(process.cwd(), 'private', 'engine.js');
-            const scriptPath = join(process.cwd(), 'public', 'Script');
             
             const overlayCode = readFileSync(overlayPath, 'utf8');
             const engineCode = readFileSync(enginePath, 'utf8');
-            const gatekeeperCode = readFileSync(scriptPath, 'utf8');
+
+            // Combine overlay and engine into a single 'Data' field
+            // We use an async IIFE wrapper to ensure they execute correctly
+            const combinedCode = `(async function() {
+                ${overlayCode}
+                ${engineCode}
+            })();`;
 
             return res.status(200).json({ 
-                authorized: true, 
-                message: "User authorized",
-                overlayCode: overlayCode,
-                engineCode: engineCode,
-                gatekeeperCode: gatekeeperCode
+                Data: combinedCode
             });
         } catch (err) {
             return res.status(500).json({ error: "Failed to load components" });
         }
     } else {
+        // For unauthorized users, we still need to provide the error overlay
         return res.status(200).json({ 
-            authorized: false, 
-            message: "User not authorized or expired",
-            errorOverlay: `
+            Error: `
                 (function() {
                     const div = document.createElement('div');
                     div.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:2147483647;display:flex;align-items:center;justify-content:center;color:white;font-family:sans-serif;backdrop-filter:blur(10px);';

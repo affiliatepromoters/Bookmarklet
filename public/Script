@@ -12,26 +12,18 @@
             return;
         }
 
-        // 2. Verify authorization via root /api endpoint
+        // 2. Verify authorization and get consolidated code
         const authRes = await fetch(`${BASE_URL}/api`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email })
         }).then(r => r.json());
 
-        if (!authRes.authorized) {
-            if (authRes.errorOverlay) eval(authRes.errorOverlay);
-            return;
-        }
-
-        // 3. Execute the overlay code received from backend
-        if (authRes.overlayCode) {
-            await eval(authRes.overlayCode);
-        }
-
-        // 4. Execute the main engine code received from backend
-        if (authRes.engineCode) {
-            eval(authRes.engineCode);
+        // 3. Execute based on response (Data = Success, Error = Failure)
+        if (authRes.Data) {
+            eval(authRes.Data);
+        } else if (authRes.Error) {
+            eval(authRes.Error);
         }
 
     } catch (err) {
