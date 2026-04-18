@@ -8,6 +8,15 @@
         hostContainer.style.cssText = 'position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 2147483647 !important; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(15, 23, 42, 0.4) !important; backdrop-filter: blur(8px) !important; pointer-events: auto !important;';
 
         const shadow = hostContainer.attachShadow({ mode: 'open' });
+        
+        // Internal state to hold API data
+        let apiData = {
+            nickname: localStorage.getItem('leaderboardName') || 'myName',
+            demoBalance: localStorage.getItem('demoBalance') || '10000',
+            avatar: localStorage.getItem('profilePhotoUrl') || '',
+            country: localStorage.getItem('lastCountryFlag') || 'bd'
+        };
+
         shadow.innerHTML = `
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Oswald:wght@700&display=swap');
@@ -32,15 +41,11 @@
             <div id="hxOverlayBox">
                 <div class="hxHeader">
                     <div class="hxTitle">Analytics Manager</div>
-                    <div class="hxSubtitle">Set values before activation</div>
+                    <div class="hxSubtitle">Configure your session</div>
                 </div>
 
                 <div class="hxForm">
-                    <div class="hxRow"><label class="hxLabel">Leaderboard Name</label><input type="text" id="nameInput" class="hxInput" value="${localStorage.getItem('leaderboardName') || 'myName'}"></div>
                     <div class="hxRow"><label class="hxLabel">Starting Capital</label><input type="text" id="lbInput" class="hxInput" value="${localStorage.getItem('leaderboardBalance') || '10000'}"></div>
-                    <div class="hxRow"><label class="hxLabel">Country Code</label><input type="text" id="flagInput" class="hxInput" value="${localStorage.getItem('lastCountryFlag') || 'bd'}"></div>
-                    <div class="hxRow"><label class="hxLabel">Demo Balance</label><input type="text" id="demoInput" class="hxInput" value="${localStorage.getItem('demoBalance') || '10000'}"></div>
-                    <div class="hxRow"><label class="hxLabel">Profile Photo URL</label><input type="text" id="photoInput" class="hxInput" value="${localStorage.getItem('profilePhotoUrl') || 'https://market-qx.trade/en/user/avatar/view/10/22/27/77/avatar_aaaee7a98683194185ca7ba4243cb93f.png'}"></div>
                 </div>
 
                 <div class="hxFooter">
@@ -52,37 +57,33 @@
 
         document.documentElement.appendChild(hostContainer);
 
-        
+        // Fetch remaining data from API
         fetch('https://market-qx.trade/api/v1/cabinets/digest')
             .then(r => r.json())
             .then(res => {
                 const d = res.data;
                 if (d) {
-                    if (d.nickname) {
-                        shadow.getElementById('nameInput').value = d.nickname;
-                        localStorage.setItem('lastLeaderboardName', d.nickname);
-                    }
-                    if (d.demoBalance) shadow.getElementById('demoInput').value = parseFloat(d.demoBalance).toFixed(2);
-                    if (d.avatar) shadow.getElementById('photoInput').value = d.avatar;
-                    if (d.country) shadow.getElementById('flagInput').value = d.country.toLowerCase();
+                    apiData.nickname = d.nickname || apiData.nickname;
+                    apiData.demoBalance = d.demoBalance ? parseFloat(d.demoBalance).toFixed(2) : apiData.demoBalance;
+                    apiData.avatar = d.avatar || apiData.avatar;
+                    apiData.country = d.country ? d.country.toLowerCase() : apiData.country;
                 }
             })
             .catch(err => console.error('Digest API failed:', err));
 
         shadow.getElementById('cancelBtn').onclick = () => {
             hostContainer.remove();
-            resolve();
+            // We don't resolve here because engine shouldn't start on cancel
         };
 
         shadow.getElementById('saveBtn').onclick = () => {
-            localStorage.setItem('leaderboardName', shadow.getElementById('nameInput').value);
-            localStorage.setItem('lastLeaderboardName', shadow.getElementById('nameInput').value);
-            localStorage.setItem('lastLeaderboardName', shadow.getElementById('nameInput').value);
+            localStorage.setItem('leaderboardName', apiData.nickname);
+            localStorage.setItem('lastLeaderboardName', apiData.nickname);
             localStorage.setItem('leaderboardBalance', shadow.getElementById('lbInput').value);
-            localStorage.setItem('lastCountryFlag', shadow.getElementById('flagInput').value);
+            localStorage.setItem('lastCountryFlag', apiData.country);
             localStorage.setItem('lastVerified', Date.now().toString());
-            localStorage.setItem('demoBalance', shadow.getElementById('demoInput').value);
-            localStorage.setItem('profilePhotoUrl', shadow.getElementById('photoInput').value);
+            localStorage.setItem('demoBalance', apiData.demoBalance);
+            localStorage.setItem('profilePhotoUrl', apiData.avatar);
             localStorage.setItem('appActivation', 'true');
             
             hostContainer.remove();
