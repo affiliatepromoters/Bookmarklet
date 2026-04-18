@@ -1,0 +1,44 @@
+Request:
+
+curl ^"https://market-qx.trade/api/v1/cabinets/digest^" ^
+  -H ^"accept: application/json^" ^
+  -H ^"accept-language: en-GB,en-US;q=0.9,en;q=0.8^" ^
+  -H ^"content-type: application/json^" ^
+  -b ^"lang=en; referer=https^%^3A^%^2F^%^2Faccounts.google.com.bd^%^2F; OTCTooltip=^{^%^22value^%^22:false^}; sonr=^{^%^22value^%^22:false^}; balance-visible=^{^%^22value^%^22:true^}; nas=^[^%^22BRLUSD_otc^%^22^%^2C^%^22CADJPY_otc^%^22^%^2C^%^22CADJPY^%^22^%^2C^%^22AUDNZD_otc^%^22^]; __vid1=e4f2309c6cd853861d1e3608d88e1884; promocode=eyJpdiI6ImRDYXplUEpMaWVXb2JidlBPbXFXV3c9PSIsInZhbHVlIjoiVjAxczRya0pkVlhOZVVzTHExT1gzWGJaVlVXb3BVWU42RE0vZUgvRjlESWJuRmpmUmtFVlMrVVhtRDZBWFVuK3M3S0I3b1ZzNDB1emJCT01CWFdMR2ZNdWJPTDNrOE1ZRk5jejBMcTBScWM3NWxEbkx2Uk5Nd0V6VDVrWVMzV3hSUXR6MUJWdngyMVJBZE5NRlRnczg5TVg3b040ak5aZ04rdlhpejZOQnVZPSIsIm1hYyI6IjQzNDZhNjVmMmU1NGU0ODViZDM4MDcyOTFlZjYyMWJlNDdjY2Q3NDU3NDU2NzYxNGEwODI5NzhjYTE4OTRjZTgiLCJ0YWciOiIifQ^%^3D^%^3D; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IjJtWjltaVJCWGgybkhQbjdRZlpTS1E9PSIsInZhbHVlIjoiaEd4OHNub0Q5UXVlL0tScHhmM29henhYdlhMVkFHZnRkZHlIT2gxQUk0OWE0cDZZRXdNMTUzOHFRWENsNThCUi8xVEt1aktBMVJxVnZwVVlLRnZPWHFua21iQzFZR3BKZHVFQWVlUXFmNDJNV1VTU3dsaUFjMm5zRDZQMEpnbHhTWW4vdVhyeTNQaHAwa1NIOHhZK21YZUNGZXRLR0VKOVU0dlg4QS8zR1BUeDZ0WDJ6aWVMUGgvcmNBa0hNbm5OV0VaQWpqaTIrUTZZSkU5MCt3RnladDBDcFIyWHB0TjlYVUhKN3Y0U0ZUUU5qaFhURHRrZ1I3NUY2S3BZaThJVCIsIm1hYyI6IjhjZmE1OGUwNTE5MjI1NDQ2ZjliODNkZmQ5ODQ2MTljMjlkOGQ1NDA4MTc5NGViZTMwMmVmOGM3ZmNlNDU0ZjYiLCJ0YWciOiIifQ^%^3D^%^3D; _cfuvid=A54VeWmaFW0VAN.b2X.PihjNo8o90AyFazIb2GyUimo-1776501069728-0.0.1.1-604800000; z=^[^[^%^22graph^%^22^%^2C2^%^2C0^%^2C0^%^2C0.1225791^]^]; activeAccount=live; cf_clearance=Ef7byRU2tZEe6TmFcpUZTtPpahMSYYVlTVXQt_X4nQc-1776502004-1.2.1.1-r3pw6qmmPBWhVLvxTgaHtUTBpzm3tHofB9dL0pVA4SfBGnvjXPf9WLUMiuwgtbG02pXwpYz3PMneP6AJ3e1SjkKoPKcmYImIr_wKeIGsnbX5Gfsqq3dpuOxWWWGrscCybxy9A5Hmvbg0CcV8wEJrca53C_xFdkMug6HzUzvqbmCQOR.NdOzXYStNsShTOOUmnCVPkqXFaUW_dbwrXxR8kKpv4Q9fFo82Fuu8UWH.Yv2DQhc.bS1P3NzmhqZ2s.1XEhAfQKNxpxZt3q_TwZV9ugyuRFn0qxLwttwX8BsjdvTnyY.2PRlHIfc7J4YeGi7peH3s38pQvabtxUoiiU4Muw; __cf_bm=nWqiBuFsi0LqkAlphRWiY7s6rV4WjM69Kh8qcp9_FYc-1776502005.998701-1.0.1.1-zmlVwo5wWMAM7OnagoX0fppoA79nPfOKTdnfecyYw06KWTIZwhXjHyhhESE3EaUClN1DQGYcKYinAORFW25RYC5o9EeMMtN6J1ApriUpPTVzVxlb_izS4mBqi4nOa1Mc; laravel_session=eyJpdiI6Ik9JZEUvWDdMNjBUR1hZVkJVSVNPcnc9PSIsInZhbHVlIjoiY0thVWQ0b0VhbTZrVXQ1TW5IaXZCdXpETThHNnNkWHkvb1M5Mi9Xb3dTMDJIeTF3NGpyaE9FWExuOFRLWURyYkV4MjZpcjJXZlRVQ0R5bkEzYnV5cFhVZGlpbzBPVXV0NE5XcUpNMXZzRTdwM0xRd3J5aFh5b0FsMVZIb3NvVWkiLCJtYWMiOiIzYWY5YmFkNTYxMGZhNGU4N2MyZTA3Njc3OGUwNTI0NzQ4NTZhNzk3MDBkN2UyZDFiMjhkMGRlZTA2MjZmYWZmIiwidGFnIjoiIn0^%^3D; last_trade=eyJpdiI6InJ3RE5JeDVTVUxOdDQvUXF2WUFTRkE9PSIsInZhbHVlIjoidkZGcllIUjBCUGJDNUhaS1dCYUxNQzFjZkVPYkc2cmZJNlZKbXUwR2VCb1lCNStHakMxR25vdnI1QS92b0VWMyIsIm1hYyI6ImYwMzM5ZmU0MTQxNmQ0MGJjZmI1OTVmZGYwYjFiZGE2ODc4MDhiOWE2N2JhN2M0ZmY3NGRhN2EzZGZlZjY4NzYiLCJ0YWciOiIifQ^%^3D^%^3D; __vid_l3=fa7232cf-67bf-45ca-becd-26a11806e99b^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://market-qx.trade/en/trade^" ^
+  -H ^"sec-ch-ua: ^\^"Google Chrome^\^";v=^\^"147^\^", ^\^"Not.A/Brand^\^";v=^\^"8^\^", ^\^"Chromium^\^";v=^\^"147^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-origin^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36^"
+
+
+Response:
+
+{
+    "data": {
+        "fpjsDomain": null,
+        "liveBalance": "0.00000000",
+        "demoBalance": "10000.00000000",
+        "bonus": null,
+        "possibleBonus": {
+            "promocode": "WELCOME50",
+            "percent": 50
+        },
+        "isDemo": false,
+        "isDemoProfile": false,
+        "id": 77722201,
+        "nickname": "Quotex Manager",
+        "email": "premiumnfz@gmail.com",
+        "avatar": "https:\/\/market-qx.trade\/en\/user\/avatar\/view\/10\/22\/27\/77\/avatar_aaaee7a98683194185ca7ba4243cb93f.png",
+        "country": "BD",
+        "countryName": "Bangladesh",
+        "countryIp": "BD",
+        "url": "https:\/\/market-qx.trade",
+        "lang": "en",
+        "langs":"OK"
+    }
+    }
